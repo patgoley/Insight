@@ -16,6 +16,27 @@ public class EntitiesTableViewController : ContextViewController {
     
     var entityCounts = [String : Int]()
     
+    public override func viewDidLoad() {
+        
+        super.viewDidLoad()
+        
+        let saveButton = UIBarButtonItem(title: "Save", style: .Done, target: self, action: Selector("saveButtonPressed"))
+        
+        navigationItem.rightBarButtonItem = saveButton
+    }
+    
+    func saveButtonPressed() {
+        
+        do {
+            
+            try context.save()
+            
+        } catch let err as NSError {
+            
+            print("error when saving context: \(err)")
+        }
+    }
+    
     override func reloadData() {
         
         entities = context.entities.sort({
@@ -28,16 +49,18 @@ public class EntitiesTableViewController : ContextViewController {
     
     func countForEntity(entity: NSEntityDescription) -> Int {
         
-        if let cachedCount = entityCounts[entity.name!] {
+        let entityName = entity.name!
+        
+        if let cachedCount = entityCounts[entityName] {
             
             return cachedCount
         }
         
-        let request = NSFetchRequest(entityName: entity.name!)
+        let request = NSFetchRequest(entityName: entityName)
         
         let count = context.countForFetchRequest(request, error: nil)
         
-        entityCounts[entity.name!] = count
+        entityCounts[entityName] = count
         
         return count
     } 
