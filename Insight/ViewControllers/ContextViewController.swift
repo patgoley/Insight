@@ -12,7 +12,7 @@ import CoreData
 
 public class ContextViewController : UITableViewController {
     
-    var context: NSManagedObjectContext! = nil
+    let context: NSManagedObjectContext
     
     public init(context: NSManagedObjectContext) {
         
@@ -34,7 +34,7 @@ public class ContextViewController : UITableViewController {
 
     public required init?(coder aDecoder: NSCoder) {
         
-        super.init(coder: aDecoder)
+        fatalError()
     }
     
     public override func viewDidLoad() {
@@ -50,18 +50,17 @@ public class ContextViewController : UITableViewController {
     
     func registerReusableViews() {
         
-        if let nibMap = nibsForReuseIds() {
-            
-            for (reuseId, nib) in nibMap {
-                
-                tableView.registerNib(nib, forCellReuseIdentifier: reuseId)
-            }
-        }
-    } 
-    
-    func nibsForReuseIds() -> [String : UINib]? {
+        let nibMap = nibsForReuseIds()
         
-        return nil
+        for (reuseId, nib) in nibMap {
+            
+            tableView.registerNib(nib, forCellReuseIdentifier: reuseId)
+        }
+    }
+    
+    func nibsForReuseIds() -> [String : UINib] {
+    
+        return [DetailLabelTableViewCell.reuseId() : DetailLabelTableViewCell.nib()]
     }
     
     public override func numberOfSectionsInTableView(tableView: UITableView) -> Int {

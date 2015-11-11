@@ -16,11 +16,6 @@ public class EntitiesTableViewController : ContextViewController {
     
     var entityCounts = [String : Int]()
     
-    override func nibsForReuseIds() -> [String : UINib]? {
-        
-        return [EntityTableViewCell.reuseId() : EntityTableViewCell.nib()]
-    }
-    
     override func reloadData() {
         
         entities = context.entities.sort({
@@ -54,13 +49,13 @@ public class EntitiesTableViewController : ContextViewController {
     
     override public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(EntityTableViewCell.reuseId(), forIndexPath: indexPath) as! EntityTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(DetailLabelTableViewCell.reuseId(), forIndexPath: indexPath) as! DetailLabelTableViewCell
         
         let entity = entities[indexPath.row]
         
         let count = countForEntity(entity)
         
-        cell.update(name: entity.name!, count: count)
+        cell.update(mainText: entity.name!, detailText: "\(count)")
         
         return cell
     }
@@ -69,22 +64,22 @@ public class EntitiesTableViewController : ContextViewController {
         
         let entity = entities[indexPath.row]
         
-        let entityViewController = EntityViewController(context: context, entity: entity)
+        let entityViewController = FetchRequestViewController(context: context, entity: entity)
         
         navigationController?.pushViewController(entityViewController, animated: true)
     }
 }
 
-class EntityTableViewCell : UITableViewCell {
+class DetailLabelTableViewCell : UITableViewCell {
     
-    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var mainLabel: UILabel!
     
-    @IBOutlet weak var countLabel: UILabel!
+    @IBOutlet weak var detailLabel: UILabel!
     
-    func update(name name: String, count: Int) -> () {
+    func update(mainText mainText: String, detailText: String) -> () {
         
-        nameLabel.text = name
+        mainLabel.text = mainText
         
-        countLabel.text = String(count)
+        detailLabel.text = detailText
     }
 }

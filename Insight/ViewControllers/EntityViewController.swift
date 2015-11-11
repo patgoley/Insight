@@ -10,30 +10,41 @@ import Foundation
 import UIKit
 import CoreData
 
-class EntityViewController : ContextViewController {
+public class FetchRequestViewController : ContextViewController {
     
-    var entity: NSEntityDescription! = nil
+    let entity: NSEntityDescription
+    
+    var request: NSFetchRequest
     
     var objects = [NSManagedObject]()
     
-    required init(context: NSManagedObjectContext, entity: NSEntityDescription) {
+    convenience public init(context: NSManagedObjectContext, entity: NSEntityDescription) {
+        
+        let request = NSFetchRequest(entityName: entity.name!)
+        
+        self.init(request: request, context: context, entity: entity)
+    }
+    
+    required public init(request: NSFetchRequest, context: NSManagedObjectContext, entity: NSEntityDescription) {
         
         self.entity = entity
+        
+        self.request = request
         
         super.init(context: context)
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         
-        super.init(coder: aDecoder)
+        fatalError()
     }
     
-    override func nibsForReuseIds() -> [String : UINib]? {
+    override func nibsForReuseIds() -> [String : UINib] {
         
         return [ModelObjectTableViewCell.reuseId() : ModelObjectTableViewCell.nib()]
     }
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         
         super.viewDidLoad()
         
@@ -43,8 +54,6 @@ class EntityViewController : ContextViewController {
     }
     
     override func reloadData() {
-        
-        let request = NSFetchRequest(entityName: entity.name!)
         
         objects = try! context.executeFetchRequest(request) as! [NSManagedObject]
     }
@@ -58,12 +67,12 @@ class EntityViewController : ContextViewController {
         tableView.reloadData()
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return objects.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier(ModelObjectTableViewCell.reuseId(), forIndexPath: indexPath) as! ModelObjectTableViewCell
         
@@ -72,6 +81,15 @@ class EntityViewController : ContextViewController {
         cell.updateWithObject(object)
         
         return cell
+    }
+    
+    public override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        let object = objects[indexPath.row]
+        
+        let objectDetailViewController = ManagedObjectViewController(objectId: object.objectID, context: context)
+        
+        navigationController?.pushViewController(objectDetailViewController, animated: true)
     }
 }
 
