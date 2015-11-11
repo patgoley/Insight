@@ -6,20 +6,16 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ModelObjectTableViewCell" customModule="Insight" customModuleProvider="target">
-            <connections>
-                <outlet property="nameLabel" destination="e1N-KH-mNm" id="sAp-UD-C4d"/>
-            </connections>
-        </placeholder>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Q9q-qw-UaP">
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="rXu-F5-nW0" customClass="ModelObjectTableViewCell" customModule="Insight" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
             <autoresizingMask key="autoresizingMask"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Q9q-qw-UaP" id="kK9-5T-usl">
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rXu-F5-nW0" id="jBk-Yw-HJe">
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e1N-KH-mNm">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bxf-Hb-g10">
                         <rect key="frame" x="8" y="11" width="304" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -27,13 +23,16 @@
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottomMargin" secondItem="e1N-KH-mNm" secondAttribute="bottom" constant="3" id="0BK-AV-MbD"/>
-                    <constraint firstItem="e1N-KH-mNm" firstAttribute="top" secondItem="kK9-5T-usl" secondAttribute="topMargin" constant="3" id="4dd-QZ-mLK"/>
-                    <constraint firstItem="e1N-KH-mNm" firstAttribute="leading" secondItem="kK9-5T-usl" secondAttribute="leadingMargin" id="FQf-1V-S5b"/>
-                    <constraint firstItem="e1N-KH-mNm" firstAttribute="trailing" secondItem="kK9-5T-usl" secondAttribute="trailingMargin" id="zVE-mW-b01"/>
+                    <constraint firstItem="Bxf-Hb-g10" firstAttribute="trailing" secondItem="jBk-Yw-HJe" secondAttribute="trailingMargin" id="6HH-3E-DFa"/>
+                    <constraint firstItem="Bxf-Hb-g10" firstAttribute="leading" secondItem="jBk-Yw-HJe" secondAttribute="leadingMargin" id="Exb-hs-xLm"/>
+                    <constraint firstItem="Bxf-Hb-g10" firstAttribute="top" secondItem="jBk-Yw-HJe" secondAttribute="topMargin" constant="3" id="kpe-Vu-Ih1"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="Bxf-Hb-g10" secondAttribute="bottom" constant="3" id="vRR-dg-fZR"/>
                 </constraints>
             </tableViewCellContentView>
-            <point key="canvasLocation" x="501" y="300"/>
+            <connections>
+                <outlet property="nameLabel" destination="Bxf-Hb-g10" id="09M-fb-ept"/>
+            </connections>
+            <point key="canvasLocation" x="615" y="354"/>
         </tableViewCell>
     </objects>
 </document>

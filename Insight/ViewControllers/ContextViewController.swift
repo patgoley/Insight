@@ -12,7 +12,7 @@ import CoreData
 
 public class ContextViewController : UITableViewController {
     
-    let context: NSManagedObjectContext
+    var context: NSManagedObjectContext! = nil
     
     public init(context: NSManagedObjectContext) {
         
@@ -22,20 +22,19 @@ public class ContextViewController : UITableViewController {
         
         let nibName = "\(self.dynamicType)"
         
-        do {
-            
-            _ = UINib(nibName: nibName, bundle: bundle)
+        if let _ = bundle.URLForResource(nibName, withExtension: "nib") {
             
             super.init(nibName: nibName, bundle: bundle)
             
-        } catch {
+        } else {
             
             super.init(nibName: nil, bundle: nil)
         }
     }
 
-    required public init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    public required init?(coder aDecoder: NSCoder) {
+        
+        super.init(coder: aDecoder)
     }
     
     public override func viewDidLoad() {

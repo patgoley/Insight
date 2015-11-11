@@ -18,8 +18,7 @@
 		8E7A78051BF3AD5B009E125A /* EntityTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E7A78041BF3AD5B009E125A /* EntityTableViewCell.xib */; };
 		8E7A78071BF3AF89009E125A /* UITableViewCell+Insight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A78061BF3AF89009E125A /* UITableViewCell+Insight.swift */; };
 		8E7A780A1BF3B2C3009E125A /* EntityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A78091BF3B2C3009E125A /* EntityViewController.swift */; };
-		8E7A780C1BF3B6AE009E125A /* ModelObjectTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E7A780B1BF3B6AE009E125A /* ModelObjectTableViewCell.xib */; };
-		8E7A780E1BF3B86A009E125A /* EntityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E7A780D1BF3B86A009E125A /* EntityViewController.xib */; };
+		8E8BF22B1BF3CBA4007EE7CD /* ModelObjectTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E8BF22A1BF3CBA4007EE7CD /* ModelObjectTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,8 +46,7 @@
 		8E7A78041BF3AD5B009E125A /* EntityTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EntityTableViewCell.xib; sourceTree = "<group>"; };
 		8E7A78061BF3AF89009E125A /* UITableViewCell+Insight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Insight.swift"; sourceTree = "<group>"; };
 		8E7A78091BF3B2C3009E125A /* EntityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityViewController.swift; sourceTree = "<group>"; };
-		8E7A780B1BF3B6AE009E125A /* ModelObjectTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ModelObjectTableViewCell.xib; sourceTree = "<group>"; };
-		8E7A780D1BF3B86A009E125A /* EntityViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EntityViewController.xib; sourceTree = "<group>"; };
+		8E8BF22A1BF3CBA4007EE7CD /* ModelObjectTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ModelObjectTableViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,8 +127,7 @@
 				8E7A77FD1BF3AA12009E125A /* EntitiesTableViewController.swift */,
 				8E7A78041BF3AD5B009E125A /* EntityTableViewCell.xib */,
 				8E7A78091BF3B2C3009E125A /* EntityViewController.swift */,
-				8E7A780D1BF3B86A009E125A /* EntityViewController.xib */,
-				8E7A780B1BF3B6AE009E125A /* ModelObjectTableViewCell.xib */,
+				8E8BF22A1BF3CBA4007EE7CD /* ModelObjectTableViewCell.xib */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -233,9 +230,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8E7A780C1BF3B6AE009E125A /* ModelObjectTableViewCell.xib in Resources */,
+				8E8BF22B1BF3CBA4007EE7CD /* ModelObjectTableViewCell.xib in Resources */,
 				8E7A78051BF3AD5B009E125A /* EntityTableViewCell.xib in Resources */,
-				8E7A780E1BF3B86A009E125A /* EntityViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -443,6 +439,7 @@
 				8E7A77EE1BF3A4F5009E125A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8E7A77EF1BF3A4F5009E125A /* Build configuration list for PBXNativeTarget "InsightTests" */ = {
 			isa = XCConfigurationList;
@@ -451,6 +448,7 @@
 				8E7A77F11BF3A4F5009E125A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
