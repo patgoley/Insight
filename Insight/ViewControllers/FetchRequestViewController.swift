@@ -91,6 +91,33 @@ public class FetchRequestViewController : ContextViewController {
         
         navigationController?.pushViewController(objectDetailViewController, animated: true)
     }
+    
+    public override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        
+        let object = objects[indexPath.row]
+        
+        switch editingStyle {
+            
+        case .Delete:
+            
+            tableView.beginUpdates()
+            
+            context.deleteObject(object)
+            
+            reloadData()
+            
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            
+            tableView.endUpdates()
+            
+        default: break
+        }
+    }
+    
+    public override func tableView(tableView: UITableView, titleForDeleteConfirmationButtonForRowAtIndexPath indexPath: NSIndexPath) -> String? {
+        
+        return "Delete"
+    }
 }
 
 class ModelObjectTableViewCell : UITableViewCell {

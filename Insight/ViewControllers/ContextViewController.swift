@@ -42,10 +42,15 @@ public class ContextViewController : UITableViewController {
         super.viewDidLoad()
         
         registerReusableViews()
+    }
+    
+    public override func viewWillAppear(animated: Bool) {
+        
+        super.viewWillAppear(animated)
         
         reloadData()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("contextSavedNotification:"), name: NSManagedObjectContextDidSaveNotification, object: context)
+        tableView.reloadData()
     }
     
     func registerReusableViews() {
@@ -68,25 +73,8 @@ public class ContextViewController : UITableViewController {
         return 1
     }
     
-    private func contextSavedNotification(notification: NSNotification, context: NSManagedObjectContext) {
-        
-        guard context != self.context else {
-            
-            return
-        }
-        
-        reloadData()
-        
-        tableView.reloadData()
-    }
-    
     func reloadData() {
         
-        
-    }
-    
-    deinit {
-        
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        fatalError("must be overriden in subclass")
     }
 }
