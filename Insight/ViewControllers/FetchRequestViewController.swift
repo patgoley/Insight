@@ -1,5 +1,5 @@
 //
-//  EntityViewController.swift
+//  FetchRequestViewController.swift
 //  Insight
 //
 //  Created by Patrick Goley on 11/11/15.

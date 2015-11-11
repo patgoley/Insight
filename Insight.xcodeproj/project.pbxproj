@@ -17,7 +17,7 @@
 		8E7A78011BF3AA25009E125A /* NSManagedObjectContext+Insight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A78001BF3AA25009E125A /* NSManagedObjectContext+Insight.swift */; };
 		8E7A78051BF3AD5B009E125A /* DetailLabelTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E7A78041BF3AD5B009E125A /* DetailLabelTableViewCell.xib */; };
 		8E7A78071BF3AF89009E125A /* UITableViewCell+Insight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A78061BF3AF89009E125A /* UITableViewCell+Insight.swift */; };
-		8E7A780A1BF3B2C3009E125A /* EntityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A78091BF3B2C3009E125A /* EntityViewController.swift */; };
+		8E7A780A1BF3B2C3009E125A /* FetchRequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A78091BF3B2C3009E125A /* FetchRequestViewController.swift */; };
 		8E8BF22B1BF3CBA4007EE7CD /* ModelObjectTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E8BF22A1BF3CBA4007EE7CD /* ModelObjectTableViewCell.xib */; };
 		8E8BF22D1BF3CCC6007EE7CD /* ManagedObjectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8BF22C1BF3CCC6007EE7CD /* ManagedObjectViewController.swift */; };
 /* End PBXBuildFile section */
@@ -46,7 +46,7 @@
 		8E7A78001BF3AA25009E125A /* NSManagedObjectContext+Insight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+Insight.swift"; sourceTree = "<group>"; };
 		8E7A78041BF3AD5B009E125A /* DetailLabelTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailLabelTableViewCell.xib; sourceTree = "<group>"; };
 		8E7A78061BF3AF89009E125A /* UITableViewCell+Insight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Insight.swift"; sourceTree = "<group>"; };
-		8E7A78091BF3B2C3009E125A /* EntityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityViewController.swift; sourceTree = "<group>"; };
+		8E7A78091BF3B2C3009E125A /* FetchRequestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchRequestViewController.swift; sourceTree = "<group>"; };
 		8E8BF22A1BF3CBA4007EE7CD /* ModelObjectTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ModelObjectTableViewCell.xib; sourceTree = "<group>"; };
 		8E8BF22C1BF3CCC6007EE7CD /* ManagedObjectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedObjectViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -128,7 +128,7 @@
 				8E7A77FC1BF3AA12009E125A /* ContextViewController.swift */,
 				8E7A78041BF3AD5B009E125A /* DetailLabelTableViewCell.xib */,
 				8E7A77FD1BF3AA12009E125A /* EntitiesTableViewController.swift */,
-				8E7A78091BF3B2C3009E125A /* EntityViewController.swift */,
+				8E7A78091BF3B2C3009E125A /* FetchRequestViewController.swift */,
 				8E8BF22A1BF3CBA4007EE7CD /* ModelObjectTableViewCell.xib */,
 				8E8BF22C1BF3CCC6007EE7CD /* ManagedObjectViewController.swift */,
 			);
@@ -255,7 +255,7 @@
 				8E7A77FF1BF3AA12009E125A /* EntitiesTableViewController.swift in Sources */,
 				8E8BF22D1BF3CCC6007EE7CD /* ManagedObjectViewController.swift in Sources */,
 				8E7A77FE1BF3AA12009E125A /* ContextViewController.swift in Sources */,
-				8E7A780A1BF3B2C3009E125A /* EntityViewController.swift in Sources */,
+				8E7A780A1BF3B2C3009E125A /* FetchRequestViewController.swift in Sources */,
 				8E7A78071BF3AF89009E125A /* UITableViewCell+Insight.swift in Sources */,
 				8E7A78011BF3AA25009E125A /* NSManagedObjectContext+Insight.swift in Sources */,
 			);

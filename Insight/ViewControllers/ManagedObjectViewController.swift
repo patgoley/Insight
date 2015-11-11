@@ -35,6 +35,8 @@ public class ManagedObjectViewController : ContextViewController {
         
         object = context.objectWithID(objectId)
         
+        context.refreshObject(object, mergeChanges: false)
+        
         let attributesByName = object.entity.attributesByName
         
         attributes = attributesByName.objectsBySortedKeyOrder()
