@@ -10,6 +10,16 @@
 		8E7A77DC1BF3A4F5009E125A /* Insight.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E7A77DB1BF3A4F5009E125A /* Insight.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8E7A77E31BF3A4F5009E125A /* Insight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E7A77D81BF3A4F5009E125A /* Insight.framework */; };
 		8E7A77E81BF3A4F5009E125A /* InsightTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A77E71BF3A4F5009E125A /* InsightTests.swift */; };
+		8E7A77F31BF3A505009E125A /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E7A77F21BF3A505009E125A /* CoreData.framework */; };
+		8E7A77F91BF3A8E1009E125A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E7A77F81BF3A8E1009E125A /* UIKit.framework */; };
+		8E7A77FE1BF3AA12009E125A /* ContextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A77FC1BF3AA12009E125A /* ContextViewController.swift */; };
+		8E7A77FF1BF3AA12009E125A /* EntitiesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A77FD1BF3AA12009E125A /* EntitiesTableViewController.swift */; };
+		8E7A78011BF3AA25009E125A /* NSManagedObjectContext+Insight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A78001BF3AA25009E125A /* NSManagedObjectContext+Insight.swift */; };
+		8E7A78051BF3AD5B009E125A /* EntityTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E7A78041BF3AD5B009E125A /* EntityTableViewCell.xib */; };
+		8E7A78071BF3AF89009E125A /* UITableViewCell+Insight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A78061BF3AF89009E125A /* UITableViewCell+Insight.swift */; };
+		8E7A780A1BF3B2C3009E125A /* EntityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A78091BF3B2C3009E125A /* EntityViewController.swift */; };
+		8E7A780C1BF3B6AE009E125A /* ModelObjectTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E7A780B1BF3B6AE009E125A /* ModelObjectTableViewCell.xib */; };
+		8E7A780E1BF3B86A009E125A /* EntityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E7A780D1BF3B86A009E125A /* EntityViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +39,16 @@
 		8E7A77E21BF3A4F5009E125A /* InsightTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InsightTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E7A77E71BF3A4F5009E125A /* InsightTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightTests.swift; sourceTree = "<group>"; };
 		8E7A77E91BF3A4F5009E125A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8E7A77F21BF3A505009E125A /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		8E7A77F81BF3A8E1009E125A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		8E7A77FC1BF3AA12009E125A /* ContextViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContextViewController.swift; sourceTree = "<group>"; };
+		8E7A77FD1BF3AA12009E125A /* EntitiesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntitiesTableViewController.swift; sourceTree = "<group>"; };
+		8E7A78001BF3AA25009E125A /* NSManagedObjectContext+Insight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+Insight.swift"; sourceTree = "<group>"; };
+		8E7A78041BF3AD5B009E125A /* EntityTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EntityTableViewCell.xib; sourceTree = "<group>"; };
+		8E7A78061BF3AF89009E125A /* UITableViewCell+Insight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Insight.swift"; sourceTree = "<group>"; };
+		8E7A78091BF3B2C3009E125A /* EntityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityViewController.swift; sourceTree = "<group>"; };
+		8E7A780B1BF3B6AE009E125A /* ModelObjectTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ModelObjectTableViewCell.xib; sourceTree = "<group>"; };
+		8E7A780D1BF3B86A009E125A /* EntityViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EntityViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +56,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E7A77F91BF3A8E1009E125A /* UIKit.framework in Frameworks */,
+				8E7A77F31BF3A505009E125A /* CoreData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,6 +75,8 @@
 		8E7A77CE1BF3A4F5009E125A = {
 			isa = PBXGroup;
 			children = (
+				8E7A77F81BF3A8E1009E125A /* UIKit.framework */,
+				8E7A77F21BF3A505009E125A /* CoreData.framework */,
 				8E7A77DA1BF3A4F5009E125A /* Insight */,
 				8E7A77E61BF3A4F5009E125A /* InsightTests */,
 				8E7A77D91BF3A4F5009E125A /* Products */,
@@ -72,6 +96,9 @@
 			isa = PBXGroup;
 			children = (
 				8E7A77DB1BF3A4F5009E125A /* Insight.h */,
+				8E7A77FA1BF3AA12009E125A /* Extensions */,
+				8E7A78081BF3B237009E125A /* TestModels */,
+				8E7A77FB1BF3AA12009E125A /* ViewControllers */,
 				8E7A77DD1BF3A4F5009E125A /* Info.plist */,
 			);
 			path = Insight;
@@ -84,6 +111,35 @@
 				8E7A77E91BF3A4F5009E125A /* Info.plist */,
 			);
 			path = InsightTests;
+			sourceTree = "<group>";
+		};
+		8E7A77FA1BF3AA12009E125A /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				8E7A78001BF3AA25009E125A /* NSManagedObjectContext+Insight.swift */,
+				8E7A78061BF3AF89009E125A /* UITableViewCell+Insight.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		8E7A77FB1BF3AA12009E125A /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				8E7A77FC1BF3AA12009E125A /* ContextViewController.swift */,
+				8E7A77FD1BF3AA12009E125A /* EntitiesTableViewController.swift */,
+				8E7A78041BF3AD5B009E125A /* EntityTableViewCell.xib */,
+				8E7A78091BF3B2C3009E125A /* EntityViewController.swift */,
+				8E7A780D1BF3B86A009E125A /* EntityViewController.xib */,
+				8E7A780B1BF3B6AE009E125A /* ModelObjectTableViewCell.xib */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		8E7A78081BF3B237009E125A /* TestModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = TestModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -177,6 +233,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E7A780C1BF3B6AE009E125A /* ModelObjectTableViewCell.xib in Resources */,
+				8E7A78051BF3AD5B009E125A /* EntityTableViewCell.xib in Resources */,
+				8E7A780E1BF3B86A009E125A /* EntityViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,6 +253,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E7A77FF1BF3AA12009E125A /* EntitiesTableViewController.swift in Sources */,
+				8E7A77FE1BF3AA12009E125A /* ContextViewController.swift in Sources */,
+				8E7A780A1BF3B2C3009E125A /* EntityViewController.swift in Sources */,
+				8E7A78071BF3AF89009E125A /* UITableViewCell+Insight.swift in Sources */,
+				8E7A78011BF3AA25009E125A /* NSManagedObjectContext+Insight.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,6 +372,7 @@
 		8E7A77ED1BF3A4F5009E125A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -318,12 +383,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.affirmative.Insight;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		8E7A77EE1BF3A4F5009E125A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
