@@ -48,9 +48,7 @@ public class ContextViewController : UITableViewController {
         
         super.viewWillAppear(animated)
         
-        reloadData()
-        
-        tableView.reloadData()
+        reloadTableView()
     }
     
     func registerReusableViews() {
@@ -76,5 +74,12 @@ public class ContextViewController : UITableViewController {
     func reloadData() {
         
         fatalError("must be overriden in subclass")
+    }
+    
+    func reloadTableView() {
+        
+        reloadData()
+        
+        tableView.reloadData()
     }
 }

@@ -20,6 +20,8 @@ public class EntitiesTableViewController : ContextViewController {
         
         super.viewDidLoad()
         
+        self.title = "Entities"
+        
         let saveButton = UIBarButtonItem(title: "Save", style: .Done, target: self, action: Selector("saveButtonPressed"))
         
         navigationItem.rightBarButtonItem = saveButton

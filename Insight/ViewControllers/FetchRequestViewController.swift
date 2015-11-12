@@ -32,6 +32,8 @@ public class FetchRequestViewController : ContextViewController {
         self.request = request
         
         super.init(context: context)
+        
+        self.title = entity.name!
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -62,9 +64,7 @@ public class FetchRequestViewController : ContextViewController {
         
         NSEntityDescription.insertNewObjectForEntityForName(entity.name!, inManagedObjectContext: context)
         
-        reloadData()
-        
-        tableView.reloadData()
+        reloadTableView()
     }
     
     override public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -76,7 +76,7 @@ public class FetchRequestViewController : ContextViewController {
         
         let cell = tableView.dequeueReusableCellWithIdentifier(ModelObjectTableViewCell.reuseId(), forIndexPath: indexPath) as! ModelObjectTableViewCell
         
-        let object = objects[indexPath.row]
+        let object = objectAtIndexPath(indexPath)
         
         cell.updateWithObject(object)
         
@@ -85,7 +85,7 @@ public class FetchRequestViewController : ContextViewController {
     
     public override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        let object = objects[indexPath.row]
+        let object = objectAtIndexPath(indexPath)
         
         let objectDetailViewController = ManagedObjectViewController(objectId: object.objectID, context: context)
         
@@ -94,7 +94,7 @@ public class FetchRequestViewController : ContextViewController {
     
     public override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         
-        let object = objects[indexPath.row]
+        let object = objectAtIndexPath(indexPath)
         
         switch editingStyle {
             
@@ -112,6 +112,11 @@ public class FetchRequestViewController : ContextViewController {
             
         default: break
         }
+    }
+    
+    func objectAtIndexPath(indexPath: NSIndexPath) -> NSManagedObject {
+        
+        return objects[indexPath.row]
     }
     
     public override func tableView(tableView: UITableView, titleForDeleteConfirmationButtonForRowAtIndexPath indexPath: NSIndexPath) -> String? {
