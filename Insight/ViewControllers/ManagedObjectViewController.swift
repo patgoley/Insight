@@ -11,17 +11,15 @@ import CoreData
 
 public class ManagedObjectViewController : ContextViewController {
     
-    let objectId: NSManagedObjectID
-    
-    var object: NSManagedObject!
+    let object: NSManagedObject
     
     var attributes = [NSAttributeDescription]()
     
     var relationships = [NSRelationshipDescription]()
     
-    init(objectId: NSManagedObjectID, context: NSManagedObjectContext) {
+    init(object: NSManagedObject, context: NSManagedObjectContext) {
         
-        self.objectId = objectId
+        self.object = object
         
         super.init(context: context)
     }
@@ -33,9 +31,7 @@ public class ManagedObjectViewController : ContextViewController {
     
     override func reloadData() {
         
-        object = context.objectWithID(objectId)
-        
-        context.refreshObject(object, mergeChanges: false)
+        context.refreshObject(object, mergeChanges: true)
         
         let attributesByName = object.entity.attributesByName
         
@@ -84,13 +80,19 @@ public class ManagedObjectViewController : ContextViewController {
             
             titleString = rel.name
             
-            if let relatedCollection = object.valueForKey(rel.name) as? NSSet {
+            switch object.valueForKey(rel.name) {
+                
+            case let relatedCollection as NSSet:
                 
                 detailString = "\(relatedCollection.count) objects"
                 
-            } else {
+            case let relatedObject as NSManagedObject:
                 
-                detailString = "0 objects"
+                detailString = "\(relatedObject)"
+                
+            default:
+                
+                detailString = rel.toMany ? "0 objects" : "null"
             }
             
         default:
@@ -102,6 +104,36 @@ public class ManagedObjectViewController : ContextViewController {
         cell.update(mainText: titleString, detailText: detailString)
         
         return cell
+    }
+    
+    public override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        let selectedObject = objectsForSection(indexPath.section)[indexPath.row]
+        
+        switch selectedObject {
+            
+        case let rel as NSRelationshipDescription:
+            
+            if rel.toMany {
+                
+                let relationshipViewController = RelationshipViewController(sourceObject: object, relationship: rel, context: context)
+                
+                navigationController?.pushViewController(relationshipViewController, animated: true)
+                
+            } else {
+                
+                if let relatedObject = object.valueForKey(rel.name) as? NSManagedObject {
+                    
+                    let objectViewController = ManagedObjectViewController(object: relatedObject, context: context)
+                    
+                    navigationController?.pushViewController(objectViewController, animated: true)
+                }
+            }
+            
+        default:
+            
+            break
+        }
     }
     
     func objectsForSection(section: Int) -> [AnyObject] {
@@ -116,6 +148,6 @@ extension Dictionary where Key: Comparable {
         
         let sortedKeys = self.keys.sort()
         
-        return sortedKeys.map( { return self[$0]! } )
+        return sortedKeys.map( { self[$0]! } )
     }
 }
