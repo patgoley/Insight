@@ -22,6 +22,8 @@ public class ManagedObjectViewController : ContextViewController {
         self.object = object
         
         super.init(context: context)
+        
+        self.title = object.insightDescription
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -88,7 +90,7 @@ public class ManagedObjectViewController : ContextViewController {
                 
             case let relatedObject as NSManagedObject:
                 
-                detailString = "\(relatedObject)"
+                detailString = relatedObject.insightDescription
                 
             default:
                 

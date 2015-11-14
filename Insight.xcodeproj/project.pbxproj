@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8E06A9DF1BF6C5CF00109CAD /* NSManagedObject+Description.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E06A9DE1BF6C5CF00109CAD /* NSManagedObject+Description.swift */; };
 		8E7A77DC1BF3A4F5009E125A /* Insight.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E7A77DB1BF3A4F5009E125A /* Insight.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8E7A77E31BF3A4F5009E125A /* Insight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E7A77D81BF3A4F5009E125A /* Insight.framework */; };
 		8E7A77E81BF3A4F5009E125A /* InsightTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7A77E71BF3A4F5009E125A /* InsightTests.swift */; };
@@ -23,7 +24,7 @@
 		8E8BF2361BF4030C007EE7CD /* RelationshipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8BF2351BF4030C007EE7CD /* RelationshipViewController.swift */; };
 		8E8BF2381BF406BC007EE7CD /* NSPredicate+Insight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8BF2371BF406BC007EE7CD /* NSPredicate+Insight.swift */; };
 		8E8BF23C1BF41032007EE7CD /* NSFetchRequest+Insight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8BF23B1BF41032007EE7CD /* NSFetchRequest+Insight.swift */; };
-		8E8BF23E1BF55E6D007EE7CD /* NSManagedObject+Insight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8BF23D1BF55E6D007EE7CD /* NSManagedObject+Insight.swift */; };
+		8E8BF23E1BF55E6D007EE7CD /* NSManagedObject+Relationships.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8BF23D1BF55E6D007EE7CD /* NSManagedObject+Relationships.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8E06A9DE1BF6C5CF00109CAD /* NSManagedObject+Description.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObject+Description.swift"; sourceTree = "<group>"; };
 		8E7A77D81BF3A4F5009E125A /* Insight.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Insight.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E7A77DB1BF3A4F5009E125A /* Insight.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Insight.h; sourceTree = "<group>"; };
 		8E7A77DD1BF3A4F5009E125A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -56,7 +58,7 @@
 		8E8BF2351BF4030C007EE7CD /* RelationshipViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelationshipViewController.swift; sourceTree = "<group>"; };
 		8E8BF2371BF406BC007EE7CD /* NSPredicate+Insight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSPredicate+Insight.swift"; sourceTree = "<group>"; };
 		8E8BF23B1BF41032007EE7CD /* NSFetchRequest+Insight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSFetchRequest+Insight.swift"; sourceTree = "<group>"; };
-		8E8BF23D1BF55E6D007EE7CD /* NSManagedObject+Insight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObject+Insight.swift"; sourceTree = "<group>"; };
+		8E8BF23D1BF55E6D007EE7CD /* NSManagedObject+Relationships.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObject+Relationships.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,7 +130,8 @@
 				8E7A78061BF3AF89009E125A /* UITableViewCell+Insight.swift */,
 				8E8BF2371BF406BC007EE7CD /* NSPredicate+Insight.swift */,
 				8E8BF23B1BF41032007EE7CD /* NSFetchRequest+Insight.swift */,
-				8E8BF23D1BF55E6D007EE7CD /* NSManagedObject+Insight.swift */,
+				8E8BF23D1BF55E6D007EE7CD /* NSManagedObject+Relationships.swift */,
+				8E06A9DE1BF6C5CF00109CAD /* NSManagedObject+Description.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -270,7 +273,8 @@
 				8E7A780A1BF3B2C3009E125A /* FetchRequestViewController.swift in Sources */,
 				8E7A78071BF3AF89009E125A /* UITableViewCell+Insight.swift in Sources */,
 				8E7A78011BF3AA25009E125A /* NSManagedObjectContext+Insight.swift in Sources */,
-				8E8BF23E1BF55E6D007EE7CD /* NSManagedObject+Insight.swift in Sources */,
+				8E8BF23E1BF55E6D007EE7CD /* NSManagedObject+Relationships.swift in Sources */,
+				8E06A9DF1BF6C5CF00109CAD /* NSManagedObject+Description.swift in Sources */,
 				8E8BF2361BF4030C007EE7CD /* RelationshipViewController.swift in Sources */,
 				8E8BF23C1BF41032007EE7CD /* NSFetchRequest+Insight.swift in Sources */,
 				8E8BF2381BF406BC007EE7CD /* NSPredicate+Insight.swift in Sources */,

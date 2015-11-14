@@ -131,6 +131,6 @@ class ModelObjectTableViewCell : UITableViewCell {
     
     func updateWithObject(object: NSManagedObject) {
         
-        nameLabel.text = "\(object)"
+        nameLabel.text = object.insightDescription
     }
 }
