@@ -87,7 +87,7 @@ public class FetchRequestViewController : ContextViewController {
         
         let object = objectAtIndexPath(indexPath)
         
-        let objectDetailViewController = ManagedObjectViewController(objectId: object.objectID, context: context)
+        let objectDetailViewController = ManagedObjectViewController(object: object, context: context)
         
         navigationController?.pushViewController(objectDetailViewController, animated: true)
     }

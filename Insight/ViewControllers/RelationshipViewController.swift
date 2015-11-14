@@ -16,11 +16,15 @@ public class RelationshipViewController : FetchRequestViewController {
     
     let relationship: NSRelationshipDescription
     
+    let inverseRelationship: NSRelationshipDescription
+    
     public required init(sourceObject: NSManagedObject, relationship: NSRelationshipDescription, context: NSManagedObjectContext) {
         
         self.sourceObject = sourceObject
         
         self.relationship = relationship
+        
+        self.inverseRelationship = relationship.inverseRelationship!
         
         let request = NSFetchRequest.requestForObjectsInRelationship(sourceObject, relationship: relationship)
         
@@ -45,11 +49,7 @@ public class RelationshipViewController : FetchRequestViewController {
             
             let deletedObject = objectAtIndexPath(indexPath)
             
-            let mutableSet = mutableRelationshipSet()
-            
-            mutableSet.removeObject(deletedObject)
-            
-            sourceObject.setValue(mutableSet.copy(), forKey: relationship.name)
+            sourceObject.removeObject(deletedObject, fromRelationship: relationship)
             
             reloadTableView()
             
@@ -59,26 +59,10 @@ public class RelationshipViewController : FetchRequestViewController {
     
     override func addButtonPressed(sender: UIBarButtonItem) {
         
-        let object = NSEntityDescription.insertNewObjectForEntityForName(relationship.entity.name!, inManagedObjectContext: context)
+        let object = NSEntityDescription.insertNewObjectForEntityForName(relationship.destinationEntity!.name!, inManagedObjectContext: context)
         
-        let mutableSet = mutableRelationshipSet()
-        
-        mutableSet.addObject(object)
-        
-        sourceObject.setValue(mutableSet.copy(), forKey: relationship.name)
+        sourceObject.addObject(object, toRelationship: relationship)
         
         reloadTableView()
-    }
-    
-    func mutableRelationshipSet() -> NSMutableSet {
-        
-        if let relationshipSet = sourceObject.valueForKey(relationship.name) as? NSSet {
-            
-            return relationshipSet.mutableCopy() as! NSMutableSet
-            
-        } else {
-            
-            return NSMutableSet()
-        }
     }
 }

@@ -11,17 +11,15 @@ import CoreData
 
 public class ManagedObjectViewController : ContextViewController {
     
-    let objectId: NSManagedObjectID
-    
-    var object: NSManagedObject!
+    let object: NSManagedObject
     
     var attributes = [NSAttributeDescription]()
     
     var relationships = [NSRelationshipDescription]()
     
-    init(objectId: NSManagedObjectID, context: NSManagedObjectContext) {
+    init(object: NSManagedObject, context: NSManagedObjectContext) {
         
-        self.objectId = objectId
+        self.object = object
         
         super.init(context: context)
     }
@@ -33,9 +31,7 @@ public class ManagedObjectViewController : ContextViewController {
     
     override func reloadData() {
         
-        object = context.objectWithID(objectId)
-        
-        context.refreshObject(object, mergeChanges: false)
+        context.refreshObject(object, mergeChanges: true)
         
         let attributesByName = object.entity.attributesByName
         
@@ -128,7 +124,7 @@ public class ManagedObjectViewController : ContextViewController {
                 
                 if let relatedObject = object.valueForKey(rel.name) as? NSManagedObject {
                     
-                    let objectViewController = ManagedObjectViewController(objectId: relatedObject.objectID, context: context)
+                    let objectViewController = ManagedObjectViewController(object: relatedObject, context: context)
                     
                     navigationController?.pushViewController(objectViewController, animated: true)
                 }
@@ -152,6 +148,6 @@ extension Dictionary where Key: Comparable {
         
         let sortedKeys = self.keys.sort()
         
-        return sortedKeys.map( { return self[$0]! } )
+        return sortedKeys.map( { self[$0]! } )
     }
 }
