@@ -15,7 +15,7 @@ extension NSFetchRequest {
         
         let request = NSFetchRequest()
         
-        request.entity = relationship.entity
+        request.entity = relationship.destinationEntity
         
         let inverseRelationship = relationship.inverseRelationship!
         
