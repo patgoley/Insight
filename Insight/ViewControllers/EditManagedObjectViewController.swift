@@ -9,14 +9,136 @@
 import Foundation
 import CoreData
 
-class EditManagedObjectViewController: ManagedObjectViewController {
+public class EditManagedObjectViewController: ManagedObjectViewController {
     
-    override func nibsForReuseIds() -> [String : UINib] {
+    override init(object: NSManagedObject, context: NSManagedObjectContext) {
         
-        return [NumberFieldTableViewCell.reuseId() : NumberFieldTableViewCell.nib(),
-                TextFieldTableViewCell.reuseId() : TextFieldTableViewCell.nib(),
-                DateFieldTableViewCell.reuseId() : DateFieldTableViewCell.nib(),
-                BooleanFieldTableViewCell.reuseId() : BooleanFieldTableViewCell.nib()]
+        let privateMainQueueContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
+        
+        privateMainQueueContext.parentContext = context
+        
+        let newContextObject = privateMainQueueContext.objectWithID(object.objectID)
+        
+        super.init(object: newContextObject, context: privateMainQueueContext)
+    }
+    
+    public override func viewDidLoad() {
+        
+        super.viewDidLoad()
+        
+        let saveButton = UIBarButtonItem(barButtonSystemItem: .Save, target: self, action: Selector("donePressed"))
+        
+        self.navigationItem.rightBarButtonItem = saveButton
+        
+        let cancelButton = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: Selector("cancelPressed"))
+        
+        self.navigationItem.rightBarButtonItem = cancelButton
+    }
+    
+    func donePressed() {
+        
+        try! context.save()
+        
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func cancelPressed() {
+        
+        context.reset()
+        
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+
+    public required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func cellTypes() -> [UITableViewCell.Type] {
+        
+        return [NumberFieldTableViewCell.self,
+                TextFieldTableViewCell.self,
+                DateFieldTableViewCell.self,
+                BooleanFieldTableViewCell.self,
+                DetailLabelTableViewCell.self]
+    }
+    
+    override public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        switch objectAtIndexPath(indexPath) {
+            
+        case let .First(attr):
+            
+            return cellForAttribute(attr, atIndexPath: indexPath, inTableView: tableView)
+            
+        default:
+            
+            return super.tableView(tableView, cellForRowAtIndexPath: indexPath)
+        }
+    }
+    
+    func cellForAttribute(attribute: NSAttributeDescription, atIndexPath indexPath: NSIndexPath, inTableView: UITableView) -> UITableViewCell {
+        
+        switch attribute.attributeType {
+            
+        case .Integer16AttributeType: fallthrough
+        case .Integer32AttributeType: fallthrough
+        case .Integer64AttributeType: fallthrough
+        case .FloatAttributeType: fallthrough
+        case .DoubleAttributeType:
+            
+            let cell = tableView.dequeueReusableCellWithIdentifier(NumberFieldTableViewCell.reuseId(), forIndexPath: indexPath) as! NumberFieldTableViewCell
+            
+            let value = object.valueForKey(attribute.name) as? NSNumber
+            
+            cell.update(value, attribute: attribute)
+            
+            return cell
+            
+        case .StringAttributeType:
+            
+            let cell = tableView.dequeueReusableCellWithIdentifier(TextFieldTableViewCell.reuseId(), forIndexPath: indexPath) as! TextFieldTableViewCell
+            
+            let value = object.valueForKey(attribute.name) as? String
+            
+            cell.update(value, attribute: attribute)
+            
+            return cell
+            
+        case .DateAttributeType:
+            
+            let cell = tableView.dequeueReusableCellWithIdentifier(DateFieldTableViewCell.reuseId(), forIndexPath: indexPath) as! DateFieldTableViewCell
+            
+            let value = object.valueForKey(attribute.name) as? NSDate
+            
+            cell.update(value, attribute: attribute)
+            
+            return cell
+            
+        case .BooleanAttributeType:
+            
+            let cell = tableView.dequeueReusableCellWithIdentifier(BooleanFieldTableViewCell.reuseId(), forIndexPath: indexPath) as! BooleanFieldTableViewCell
+            
+            let value = object.valueForKey(attribute.name) as? Bool
+            
+            cell.update(value, attribute: attribute)
+            
+            return cell
+            
+        default:
+            
+            let cell = tableView.dequeueReusableCellWithIdentifier(TextFieldTableViewCell.reuseId(), forIndexPath: indexPath) as! TextFieldTableViewCell
+            
+            if let value = object.valueForKey(attribute.name) {
+                
+                cell.update(value.description, attribute: attribute)
+                
+            } else {
+                
+                cell.update("null", attribute: attribute)
+            }
+            
+            return cell
+        }
     }
 }
 
@@ -39,17 +161,12 @@ class NumberFieldTableViewCell : UITableViewCell, AttributeCell {
     
     func update(value: ValueType?, attribute: NSAttributeDescription) {
         
-        numberField.text = value != nil ? value!.description : "null"
+        numberField.text = value.map({ $0.description })
     }
     
     func currentValue() -> ValueType? {
         
-        if let text = numberField.text {
-            
-            return formatter.numberFromString(text)!
-        }
-        
-        return 0 as NSNumber
+        return numberField.text.map({ formatter.numberFromString($0)! })
     }
 }
 
@@ -61,50 +178,38 @@ class TextFieldTableViewCell: UITableViewCell, AttributeCell {
     
     func update(value: ValueType?, attribute: NSAttributeDescription) {
         
-        textField.text = value ?? "null"
+        textField.text = value
     }
     
     func currentValue() -> ValueType? {
         
-        return textField.text ?? ""
+        return textField.text
     }
 }
 
 class DateFieldTableViewCell: UITableViewCell, AttributeCell {
     
-    @IBOutlet weak var dateField: UILabel!
-    
     typealias ValueType = NSDate
+    
+    @IBOutlet weak var dateField: UILabel!
     
     static let formatter: NSDateFormatter = {
         
-        let df = NSDateFormatter()
+        let formatter = NSDateFormatter()
         
-        df.dateStyle = .LongStyle
+        formatter.dateStyle = .LongStyle
         
-        return df
+        return formatter
     }()
     
     func update(value: ValueType?, attribute: NSAttributeDescription) {
         
-        if let date = value {
-            
-            dateField.text = DateFieldTableViewCell.formatter.stringFromDate(date)
-            
-        } else {
-            
-            dateField.text = "null"
-        }
+        dateField.text = value.map({ DateFieldTableViewCell.formatter.stringFromDate($0) })
     }
     
     func currentValue() -> ValueType? {
         
-        if let text = dateField.text {
-            
-            return DateFieldTableViewCell.formatter.dateFromString(text)
-        }
-        
-        return nil
+        return dateField.text.map({ DateFieldTableViewCell.formatter.dateFromString($0)! })
     }
 }
 
@@ -120,14 +225,7 @@ class BooleanFieldTableViewCell: UITableViewCell, AttributeCell {
         
         nameLabel.text = attribute.name
         
-        if let toggleValue = value {
-            
-            toggleSwitch.on = toggleValue
-            
-        } else {
-            
-            toggleSwitch.on = false
-        }
+        toggleSwitch.on = value ?? false
     }
     
     func currentValue() -> ValueType? {

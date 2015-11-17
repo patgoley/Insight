@@ -31,6 +31,24 @@ public class ManagedObjectViewController : ContextViewController {
         fatalError()
     }
     
+    public override func viewDidLoad() {
+        
+        super.viewDidLoad()
+        
+        let editButton = UIBarButtonItem(barButtonSystemItem: .Edit, target: self, action: Selector("editPressed"))
+        
+        self.navigationItem.rightBarButtonItem = editButton
+    }
+    
+    func editPressed() {
+        
+        let editViewController = EditManagedObjectViewController(object: object, context: context)
+        
+        let navController = UINavigationController(rootViewController: editViewController)
+        
+        presentViewController(navController, animated: true, completion: nil)
+    }
+    
     override func reloadData() {
         
         context.refreshObject(object, mergeChanges: true)
@@ -138,10 +156,33 @@ public class ManagedObjectViewController : ContextViewController {
         }
     }
     
+    func objectAtIndexPath(indexPath: NSIndexPath) -> Either<NSAttributeDescription, NSRelationshipDescription> {
+        
+        switch objectsForSection(indexPath.section)[indexPath.row] {
+            
+        case let attr as NSAttributeDescription:
+            
+            return .First(attr)
+            
+        case let rel as NSRelationshipDescription:
+            
+            return .Second(rel)
+            
+        default:
+            
+            fatalError()
+        }
+    }
+    
     func objectsForSection(section: Int) -> [AnyObject] {
         
         return section == 0 ? attributes : relationships
     }
+}
+
+enum Either<A, B> {
+    
+    case First(A), Second(B)
 }
 
 extension Dictionary where Key: Comparable {

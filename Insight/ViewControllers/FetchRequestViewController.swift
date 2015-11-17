@@ -41,9 +41,9 @@ public class FetchRequestViewController : ContextViewController {
         fatalError()
     }
     
-    override func nibsForReuseIds() -> [String : UINib] {
+    override func cellTypes() -> [UITableViewCell.Type] {
         
-        return [ModelObjectTableViewCell.reuseId() : ModelObjectTableViewCell.nib()]
+        return [ModelObjectTableViewCell.self]
     }
     
     override public func viewDidLoad() {
