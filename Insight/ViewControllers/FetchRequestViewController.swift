@@ -10,13 +10,28 @@ import Foundation
 import UIKit
 import CoreData
 
-public class FetchRequestViewController : ContextViewController {
+public class FetchRequestViewController : ContextViewController, ModalSelectionViewController {
     
     let entity: NSEntityDescription
     
     var request: NSFetchRequest
     
     var objects = [NSManagedObject]()
+    
+    var _completion: ObjectCompletionBlock?
+    
+    var completion: ObjectCompletionBlock? {
+        
+        get {
+            
+            return _completion
+        }
+        
+        set {
+            
+            _completion = newValue
+        }
+    }
     
     convenience public init(context: NSManagedObjectContext, entity: NSEntityDescription) {
         
@@ -41,30 +56,48 @@ public class FetchRequestViewController : ContextViewController {
         fatalError()
     }
     
-    override func nibsForReuseIds() -> [String : UINib] {
+    override func cellTypes() -> [InsightTableViewCell.Type] {
         
-        return [ModelObjectTableViewCell.reuseId() : ModelObjectTableViewCell.nib()]
+        return [ModelObjectTableViewCell.self]
     }
     
     override public func viewDidLoad() {
         
         super.viewDidLoad()
         
-        let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: Selector("addButtonPressed:"))
+        let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: Selector("addButtonPressed"))
         
         navigationItem.rightBarButtonItem = addButton
+        
+        if completion != nil {
+            
+            let cancelButton = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: Selector("cancelButtonPressed"))
+            
+            navigationItem.leftBarButtonItem = cancelButton
+        }
+    }
+    
+    func addButtonPressed() {
+        
+        NSEntityDescription.insertNewObjectForEntityForName(entity.name!, inManagedObjectContext: context)
+        
+        reloadTableView()
+    }
+    
+    func cancelButtonPressed() {
+        
+        dismissViewControllerAnimated(true) {
+            
+            if let handler = self.completion {
+                
+                handler(nil)
+            }
+        }
     }
     
     override func reloadData() {
         
         objects = try! context.executeFetchRequest(request) as! [NSManagedObject]
-    }
-    
-    @IBAction func addButtonPressed(sender: UIBarButtonItem) {
-        
-        NSEntityDescription.insertNewObjectForEntityForName(entity.name!, inManagedObjectContext: context)
-        
-        reloadTableView()
     }
     
     override public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -87,7 +120,17 @@ public class FetchRequestViewController : ContextViewController {
         
         let object = objectAtIndexPath(indexPath)
         
-        let objectDetailViewController = ManagedObjectViewController(object: object, context: context)
+        if let handler = completion {
+            
+            dismissViewControllerAnimated(true) {
+                
+                handler(object)
+            }
+            
+            return
+        }
+        
+        let objectDetailViewController = ManagedObjectViewController(object: object)
         
         navigationController?.pushViewController(objectDetailViewController, animated: true)
     }
@@ -125,7 +168,7 @@ public class FetchRequestViewController : ContextViewController {
     }
 }
 
-class ModelObjectTableViewCell : UITableViewCell {
+class ModelObjectTableViewCell : InsightTableViewCell {
     
     @IBOutlet weak var nameLabel: UILabel!
     

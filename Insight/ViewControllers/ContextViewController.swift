@@ -53,17 +53,15 @@ public class ContextViewController : UITableViewController {
     
     func registerReusableViews() {
         
-        let nibMap = nibsForReuseIds()
-        
-        for (reuseId, nib) in nibMap {
+        for type in cellTypes() {
             
-            tableView.registerNib(nib, forCellReuseIdentifier: reuseId)
+            tableView.registerNib(type.nib(), forCellReuseIdentifier: type.reuseId())
         }
     }
     
-    func nibsForReuseIds() -> [String : UINib] {
-    
-        return [DetailLabelTableViewCell.reuseId() : DetailLabelTableViewCell.nib()]
+    func cellTypes() -> [InsightTableViewCell.Type] {
+        
+        return [DetailLabelTableViewCell.self]
     }
     
     public override func numberOfSectionsInTableView(tableView: UITableView) -> Int {

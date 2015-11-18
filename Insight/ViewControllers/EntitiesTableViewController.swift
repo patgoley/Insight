@@ -95,7 +95,7 @@ public class EntitiesTableViewController : ContextViewController {
     }
 }
 
-class DetailLabelTableViewCell : UITableViewCell {
+class DetailLabelTableViewCell : InsightTableViewCell {
     
     @IBOutlet weak var mainLabel: UILabel!
     

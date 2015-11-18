@@ -57,12 +57,63 @@ public class RelationshipViewController : FetchRequestViewController {
         }
     }
     
-    override func addButtonPressed(sender: UIBarButtonItem) {
+    override func addButtonPressed() {
         
-        let object = NSEntityDescription.insertNewObjectForEntityForName(relationship.destinationEntity!.name!, inManagedObjectContext: context)
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
         
-        sourceObject.addObject(object, toRelationship: relationship)
+        alert.addAction(UIAlertAction(title: "Add New", style: .Default, handler: { (_) -> Void in
+            
+            self.insertNewRelatedObject()
+        }))
         
-        reloadTableView()
+        alert.addAction(UIAlertAction(title: "Link Existing", style: .Default, handler: { (_) -> Void in
+            
+            self.linkExistingObject()
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+        
+        presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func insertNewRelatedObject() {
+        
+        let createObjectViewController = EditManagedObjectViewController(newObjectForRelationship: relationship, sourceObject: sourceObject)
+        
+        startModalSelection(createObjectViewController) { (object: NSManagedObject?) in
+            
+            if object != nil {
+                
+                self.reloadTableView()
+            }
+        }
+    }
+    
+    func linkExistingObject() {
+        
+        let fetchRequestViewController: FetchRequestViewController
+        
+        if objects.count > 0 {
+            
+            let request = NSFetchRequest(entityName: entity.name!)
+            
+            request.predicate = NSPredicate(format: "NOT (SELF IN %@)", objects)
+            
+            fetchRequestViewController = FetchRequestViewController(request: request, context: context, entity: entity)
+            
+        } else {
+            
+            fetchRequestViewController = FetchRequestViewController(context: context, entity: entity)
+        }
+        
+        startModalSelection(fetchRequestViewController) { (object: NSManagedObject?) in
+            
+            if object != nil {
+                
+                self.sourceObject.addObject(object!, toRelationship: self.relationship)
+                
+                self.reloadTableView()
+            }
+        }
     }
 }
