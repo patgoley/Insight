@@ -12,6 +12,8 @@
 		8E06A9E81BF6F6D500109CAD /* AttributeFieldTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E06A9E71BF6F6D500109CAD /* AttributeFieldTableViewCell.xib */; };
 		8E06A9EA1BF6FB2F00109CAD /* ModelObjectTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E06A9E91BF6FB2F00109CAD /* ModelObjectTableViewCell.xib */; };
 		8E06A9EE1BF6FCC900109CAD /* BooleanFieldTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E06A9ED1BF6FCC900109CAD /* BooleanFieldTableViewCell.xib */; };
+		8E377B511BFC04B3006134B7 /* UIViewController+Insight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E377B501BFC04B3006134B7 /* UIViewController+Insight.swift */; };
+		8E377B531BFC0A1F006134B7 /* AttributeCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E377B521BFC0A1F006134B7 /* AttributeCells.swift */; };
 		8E38861E1BFB9EE300095C81 /* InsightTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38861D1BFB9EE300095C81 /* InsightTableViewCell.swift */; };
 		8E3886291BFBEEAE00095C81 /* DateFieldTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E3886271BFBEEAE00095C81 /* DateFieldTableViewCell.xib */; };
 		8E38862A1BFBEEAE00095C81 /* NumberFieldTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E3886281BFBEEAE00095C81 /* NumberFieldTableViewCell.xib */; };
@@ -48,6 +50,8 @@
 		8E06A9E71BF6F6D500109CAD /* AttributeFieldTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AttributeFieldTableViewCell.xib; sourceTree = "<group>"; };
 		8E06A9E91BF6FB2F00109CAD /* ModelObjectTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ModelObjectTableViewCell.xib; sourceTree = "<group>"; };
 		8E06A9ED1BF6FCC900109CAD /* BooleanFieldTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BooleanFieldTableViewCell.xib; sourceTree = "<group>"; };
+		8E377B501BFC04B3006134B7 /* UIViewController+Insight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Insight.swift"; sourceTree = "<group>"; };
+		8E377B521BFC0A1F006134B7 /* AttributeCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributeCells.swift; sourceTree = "<group>"; };
 		8E38861D1BFB9EE300095C81 /* InsightTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InsightTableViewCell.swift; sourceTree = "<group>"; };
 		8E3886271BFBEEAE00095C81 /* DateFieldTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DateFieldTableViewCell.xib; sourceTree = "<group>"; };
 		8E3886281BFBEEAE00095C81 /* NumberFieldTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NumberFieldTableViewCell.xib; sourceTree = "<group>"; };
@@ -141,6 +145,7 @@
 				8E8BF23B1BF41032007EE7CD /* NSFetchRequest+Insight.swift */,
 				8E8BF23D1BF55E6D007EE7CD /* NSManagedObject+Relationships.swift */,
 				8E06A9DE1BF6C5CF00109CAD /* NSManagedObject+Description.swift */,
+				8E377B501BFC04B3006134B7 /* UIViewController+Insight.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -156,6 +161,7 @@
 				8E06A9E91BF6FB2F00109CAD /* ModelObjectTableViewCell.xib */,
 				8E8BF2351BF4030C007EE7CD /* RelationshipViewController.swift */,
 				8E06A9E01BF6F1D800109CAD /* EditManagedObjectViewController.swift */,
+				8E377B521BFC0A1F006134B7 /* AttributeCells.swift */,
 				8E38861D1BFB9EE300095C81 /* InsightTableViewCell.swift */,
 				8E06A9E71BF6F6D500109CAD /* AttributeFieldTableViewCell.xib */,
 				8E3886271BFBEEAE00095C81 /* DateFieldTableViewCell.xib */,
@@ -286,6 +292,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E377B531BFC0A1F006134B7 /* AttributeCells.swift in Sources */,
+				8E377B511BFC04B3006134B7 /* UIViewController+Insight.swift in Sources */,
 				8E7A77FF1BF3AA12009E125A /* EntitiesTableViewController.swift in Sources */,
 				8E8BF22D1BF3CCC6007EE7CD /* ManagedObjectViewController.swift in Sources */,
 				8E7A77FE1BF3AA12009E125A /* ContextViewController.swift in Sources */,

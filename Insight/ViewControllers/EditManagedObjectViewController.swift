@@ -9,32 +9,44 @@
 import Foundation
 import CoreData
 
-public class EditManagedObjectViewController: ManagedObjectViewController {
+public class EditManagedObjectViewController: ManagedObjectViewController, ModalSelectionViewController {
     
-    var completion: ObjectCompletionBlock?
+    var _completion: ObjectCompletionBlock?
     
-    let originalContext: NSManagedObjectContext
-    
-    init(newObjectForEntity entity: NSEntityDescription, inContext context: NSManagedObjectContext) {
+    var completion: ObjectCompletionBlock? {
         
-        self.originalContext = context
+        get {
+            
+            return _completion
+        }
         
-        let privateMainQueueContext = context.privateChildContext()
+        set {
+            
+            _completion = newValue
+        }
+    }
+    
+    var isNewObject = false
+    
+    convenience init(newObjectForRelationship relationship: NSRelationshipDescription, sourceObject: NSManagedObject) {
+        
+        self.init(newObjectForEntity: relationship.destinationEntity!, inContext: sourceObject.managedObjectContext!)
+        
+        sourceObject.addObject(object, toRelationship: relationship)
+    }
+    
+    convenience init(newObjectForEntity entity: NSEntityDescription, inContext context: NSManagedObjectContext) {
         
         let object = NSEntityDescription.insertNewObjectForEntityForName(entity.name!, inManagedObjectContext: context)
         
-        super.init(object: object, context: privateMainQueueContext)
+        self.init(object: object)
+        
+        self.isNewObject = true
     }
     
-    init(object: NSManagedObject) {
+    required public init(object: NSManagedObject) {
         
-        self.originalContext = object.managedObjectContext!
-        
-        let privateMainQueueContext = object.managedObjectContext!.privateChildContext()
-        
-        let newContextObject = privateMainQueueContext.objectWithID(object.objectID)
-        
-        super.init(object: newContextObject, context: privateMainQueueContext)
+        super.init(object: object)
     }
     
     public override func viewDidLoad() {
@@ -63,26 +75,42 @@ public class EditManagedObjectViewController: ManagedObjectViewController {
             object.setValue(value, forKey: attribute.name!)
         }
         
-        try! context.save()
+        if completion == nil {
+            
+            try! context.save()
+        }
         
         dismissViewControllerAnimated(true) {
             
-            if let handler = self.completion {
+            guard let handler = self.completion else {
                 
-                let objectId = self.object.objectID
-                
-                let originalContextObject = self.originalContext.objectWithID(objectId)
-                
-                handler(originalContextObject)
+                return
             }
+            
+            handler(self.object)
         }
     }
     
     func cancelPressed() {
         
-        context.reset()
+        if isNewObject {
+            
+            context.deleteObject(object)
+            
+        } else if object.changedValues().count > 0 {
+            
+            context.refreshObject(object, mergeChanges: false)
+        }
         
-        dismissViewControllerAnimated(true, completion: nil)
+        dismissViewControllerAnimated(true) {
+            
+            guard let handler = self.completion else {
+                
+                return
+            }
+            
+            handler(nil)
+        }
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -153,123 +181,3 @@ public class EditManagedObjectViewController: ManagedObjectViewController {
     }
 }
 
-protocol AttributeCell {
-    
-    func updateWithValue(value: AnyObject?, forAttribute attribute: NSAttributeDescription)
-    
-    func currentValue() -> AnyObject?
-}
-
-class AttributeFieldTableViewCell : InsightTableViewCell, AttributeCell {
-    
-    @IBOutlet weak var attributeLabel: UILabel!
-    
-    @IBOutlet weak var textField: UITextField!
-    
-    final func updateWithValue(value: AnyObject?, forAttribute attribute: NSAttributeDescription) {
-        
-        attributeLabel.text = attribute.name
-        
-        textField.text = value.map(stringFromValue)
-        
-        textField.keyboardType = keyboardTypeForAttributeType(attribute.attributeType)
-    }
-    
-    final func currentValue() -> AnyObject? {
-        
-        return textField.text.map(valueFromString)
-    }
-    
-    func stringFromValue(value: AnyObject) -> String {
-        
-        return value.description!
-    }
-    
-    func valueFromString(valueString: String) -> AnyObject {
-        
-        return valueString
-    }
-    
-    private final func keyboardTypeForAttributeType(attributeType: NSAttributeType) -> UIKeyboardType {
-        
-        switch attributeType {
-            
-        case .StringAttributeType:
-            
-            return .ASCIICapable
-            
-        case .Integer16AttributeType: fallthrough
-        case .Integer32AttributeType: fallthrough
-        case .Integer64AttributeType:
-            
-            return .NumberPad
-        
-        case .DoubleAttributeType: fallthrough
-        case .FloatAttributeType:
-            
-            return .DecimalPad
-            
-        default:
-            
-            return .Default
-        }
-    }
-}
-
-class NumberFieldTableViewCell : AttributeFieldTableViewCell {
-    
-    let formatter = NSNumberFormatter()
-    
-    override func valueFromString(valueString: String) -> AnyObject {
-        
-        return formatter.numberFromString(valueString)!
-    }
-}
-
-class DateFieldTableViewCell: AttributeFieldTableViewCell {
-    
-    static let formatter: NSDateFormatter = {
-        
-        let formatter = NSDateFormatter()
-        
-        formatter.dateStyle = .LongStyle
-        
-        return formatter
-    }()
-    
-    override func stringFromValue(value: AnyObject) -> String {
-        
-        return DateFieldTableViewCell.formatter.stringFromDate(value as! NSDate)
-    }
-    
-    override func valueFromString(valueString: String) -> AnyObject {
-        
-        return DateFieldTableViewCell.formatter.dateFromString(valueString)!
-    }
-}
-
-class BooleanFieldTableViewCell: InsightTableViewCell, AttributeCell {
-    
-    @IBOutlet weak var attributeLabel: UILabel!
-    
-    @IBOutlet weak var toggleSwitch: UISwitch!
-    
-    func updateWithValue(value: AnyObject?, forAttribute attribute: NSAttributeDescription) {
-        
-        attributeLabel.text = attribute.name
-        
-        if let boolValue = value?.boolValue {
-            
-            toggleSwitch.on = boolValue
-            
-        } else {
-            
-            toggleSwitch.on = false
-        }
-    }
-    
-    func currentValue() -> AnyObject? {
-        
-        return toggleSwitch.on as NSNumber
-    }
-}

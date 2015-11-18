@@ -11,6 +11,29 @@ import CoreData
 
 extension NSManagedObject {
     
+    //MARK: Access
+    
+    func objectsInRelationship(relationship: NSRelationshipDescription) -> NSSet {
+        
+        precondition(relationship.toMany)
+        
+        if let set = valueForKey(relationship.name) as? NSSet {
+            
+            return set
+            
+        } else {
+            
+            return NSSet()
+        }
+    }
+    
+    func objectForRelationship(relationship: NSRelationshipDescription) -> NSManagedObject? {
+        
+        precondition(!relationship.toMany)
+        
+        return valueForKey(relationship.name) as? NSManagedObject
+    }
+    
     //MARK: Adding objects
     
     func addObjects(objects: [NSManagedObject], toRelationship relationship: NSRelationshipDescription) {
