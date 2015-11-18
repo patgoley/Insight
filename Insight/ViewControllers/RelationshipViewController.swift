@@ -53,7 +53,9 @@ public class RelationshipViewController : FetchRequestViewController {
             
             reloadTableView()
             
-        default: break
+        default:
+            
+            break
         }
     }
     
@@ -61,15 +63,15 @@ public class RelationshipViewController : FetchRequestViewController {
         
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
         
-        alert.addAction(UIAlertAction(title: "Add New", style: .Default, handler: { (_) -> Void in
+        alert.addAction(UIAlertAction(title: "Add New", style: .Default) { (_) -> Void in
             
             self.insertNewRelatedObject()
-        }))
+        })
         
-        alert.addAction(UIAlertAction(title: "Link Existing", style: .Default, handler: { (_) -> Void in
+        alert.addAction(UIAlertAction(title: "Link Existing", style: .Default) { (_) -> Void in
             
             self.linkExistingObject()
-        }))
+        })
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
         

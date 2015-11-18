@@ -44,9 +44,7 @@ public class ManagedObjectViewController : ContextViewController {
         
         let editViewController = EditManagedObjectViewController(object: object)
         
-        let navController = UINavigationController(rootViewController: editViewController)
-        
-        presentViewController(navController, animated: true, completion: nil)
+        presentNavigationController(withRoot: editViewController)
     }
     
     override func reloadData() {
@@ -156,7 +154,7 @@ public class ManagedObjectViewController : ContextViewController {
                 
             } else {
                 
-                if let relatedObject = object.valueForKey(rel.name) as? NSManagedObject {
+                if let relatedObject = object.objectForRelationship(rel) {
                     
                     let objectViewController = ManagedObjectViewController(object: relatedObject)
                     
