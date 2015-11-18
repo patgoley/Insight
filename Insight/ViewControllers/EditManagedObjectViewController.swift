@@ -11,11 +11,26 @@ import CoreData
 
 public class EditManagedObjectViewController: ManagedObjectViewController {
     
-    override init(object: NSManagedObject, context: NSManagedObjectContext) {
+    var completion: ObjectCompletionBlock?
+    
+    let originalContext: NSManagedObjectContext
+    
+    init(newObjectForEntity entity: NSEntityDescription, inContext context: NSManagedObjectContext) {
         
-        let privateMainQueueContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
+        self.originalContext = context
         
-        privateMainQueueContext.parentContext = context
+        let privateMainQueueContext = context.privateChildContext()
+        
+        let object = NSEntityDescription.insertNewObjectForEntityForName(entity.name!, inManagedObjectContext: context)
+        
+        super.init(object: object, context: privateMainQueueContext)
+    }
+    
+    init(object: NSManagedObject) {
+        
+        self.originalContext = object.managedObjectContext!
+        
+        let privateMainQueueContext = object.managedObjectContext!.privateChildContext()
         
         let newContextObject = privateMainQueueContext.objectWithID(object.objectID)
         
@@ -32,14 +47,35 @@ public class EditManagedObjectViewController: ManagedObjectViewController {
         
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: Selector("cancelPressed"))
         
-        self.navigationItem.rightBarButtonItem = cancelButton
+        self.navigationItem.leftBarButtonItem = cancelButton
     }
     
     func donePressed() {
         
+        for (i, attribute) in objectsForSection(0).enumerate() {
+            
+            let indexPath = NSIndexPath(forRow: i, inSection: 0)
+            
+            let cell = tableView.cellForRowAtIndexPath(indexPath) as! AttributeCell
+            
+            let value = cell.currentValue()
+            
+            object.setValue(value, forKey: attribute.name!)
+        }
+        
         try! context.save()
         
-        dismissViewControllerAnimated(true, completion: nil)
+        dismissViewControllerAnimated(true) {
+            
+            if let handler = self.completion {
+                
+                let objectId = self.object.objectID
+                
+                let originalContextObject = self.originalContext.objectWithID(objectId)
+                
+                handler(originalContextObject)
+            }
+        }
     }
     
     func cancelPressed() {
@@ -53,22 +89,47 @@ public class EditManagedObjectViewController: ManagedObjectViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func cellTypes() -> [UITableViewCell.Type] {
+    override func cellTypes() -> [InsightTableViewCell.Type] {
         
-        return [NumberFieldTableViewCell.self,
-                TextFieldTableViewCell.self,
+        return [AttributeFieldTableViewCell.self,
+                NumberFieldTableViewCell.self,
                 DateFieldTableViewCell.self,
                 BooleanFieldTableViewCell.self,
                 DetailLabelTableViewCell.self]
+    }
+    
+    public override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
+        if indexPath.section == 0 {
+            
+            let attribute = objectsForSection(0)[indexPath.row] as! NSAttributeDescription
+            
+            if attribute.attributeType == .BooleanAttributeType {
+                
+                return 44.0
+            }
+            
+            return 80.0
+        }
+        
+        return super.tableView(tableView, heightForRowAtIndexPath: indexPath)
     }
     
     override public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         switch objectAtIndexPath(indexPath) {
             
-        case let .First(attr):
+        case let .First(attribute):
             
-            return cellForAttribute(attr, atIndexPath: indexPath, inTableView: tableView)
+            let reuseId = reuseIdForAttributeType(attribute.attributeType)
+            
+            let cell = tableView.dequeueReusableCellWithIdentifier(reuseId, forIndexPath: indexPath) as! AttributeCell
+            
+            let value = object.valueForKey(attribute.name)
+            
+            cell.updateWithValue(value, forAttribute: attribute)
+            
+            return cell as! UITableViewCell
             
         default:
             
@@ -76,122 +137,96 @@ public class EditManagedObjectViewController: ManagedObjectViewController {
         }
     }
     
-    func cellForAttribute(attribute: NSAttributeDescription, atIndexPath indexPath: NSIndexPath, inTableView: UITableView) -> UITableViewCell {
+    func reuseIdForAttributeType(type: NSAttributeType) -> String {
         
-        switch attribute.attributeType {
+        switch type {
             
         case .Integer16AttributeType: fallthrough
         case .Integer32AttributeType: fallthrough
         case .Integer64AttributeType: fallthrough
-        case .FloatAttributeType: fallthrough
-        case .DoubleAttributeType:
-            
-            let cell = tableView.dequeueReusableCellWithIdentifier(NumberFieldTableViewCell.reuseId(), forIndexPath: indexPath) as! NumberFieldTableViewCell
-            
-            let value = object.valueForKey(attribute.name) as? NSNumber
-            
-            cell.update(value, attribute: attribute)
-            
-            return cell
-            
-        case .StringAttributeType:
-            
-            let cell = tableView.dequeueReusableCellWithIdentifier(TextFieldTableViewCell.reuseId(), forIndexPath: indexPath) as! TextFieldTableViewCell
-            
-            let value = object.valueForKey(attribute.name) as? String
-            
-            cell.update(value, attribute: attribute)
-            
-            return cell
-            
-        case .DateAttributeType:
-            
-            let cell = tableView.dequeueReusableCellWithIdentifier(DateFieldTableViewCell.reuseId(), forIndexPath: indexPath) as! DateFieldTableViewCell
-            
-            let value = object.valueForKey(attribute.name) as? NSDate
-            
-            cell.update(value, attribute: attribute)
-            
-            return cell
-            
-        case .BooleanAttributeType:
-            
-            let cell = tableView.dequeueReusableCellWithIdentifier(BooleanFieldTableViewCell.reuseId(), forIndexPath: indexPath) as! BooleanFieldTableViewCell
-            
-            let value = object.valueForKey(attribute.name) as? Bool
-            
-            cell.update(value, attribute: attribute)
-            
-            return cell
-            
-        default:
-            
-            let cell = tableView.dequeueReusableCellWithIdentifier(TextFieldTableViewCell.reuseId(), forIndexPath: indexPath) as! TextFieldTableViewCell
-            
-            if let value = object.valueForKey(attribute.name) {
-                
-                cell.update(value.description, attribute: attribute)
-                
-            } else {
-                
-                cell.update("null", attribute: attribute)
-            }
-            
-            return cell
+        case .FloatAttributeType:     fallthrough
+        case .DoubleAttributeType:    return NumberFieldTableViewCell.reuseId()
+        case .DateAttributeType:      return DateFieldTableViewCell.reuseId()
+        case .BooleanAttributeType:   return BooleanFieldTableViewCell.reuseId()
+        default:                      return AttributeFieldTableViewCell.reuseId()
         }
     }
 }
 
 protocol AttributeCell {
     
-    typealias ValueType
+    func updateWithValue(value: AnyObject?, forAttribute attribute: NSAttributeDescription)
     
-    func update(value: ValueType?, attribute: NSAttributeDescription)
-    
-    func currentValue() -> ValueType?
+    func currentValue() -> AnyObject?
 }
 
-class NumberFieldTableViewCell : UITableViewCell, AttributeCell {
+class AttributeFieldTableViewCell : InsightTableViewCell, AttributeCell {
     
-    typealias ValueType = NSNumber
-    
-    @IBOutlet weak var numberField: UITextField!
-    
-    let formatter = NSNumberFormatter()
-    
-    func update(value: ValueType?, attribute: NSAttributeDescription) {
-        
-        numberField.text = value.map({ $0.description })
-    }
-    
-    func currentValue() -> ValueType? {
-        
-        return numberField.text.map({ formatter.numberFromString($0)! })
-    }
-}
-
-class TextFieldTableViewCell: UITableViewCell, AttributeCell {
-    
-    typealias ValueType = String
+    @IBOutlet weak var attributeLabel: UILabel!
     
     @IBOutlet weak var textField: UITextField!
     
-    func update(value: ValueType?, attribute: NSAttributeDescription) {
+    final func updateWithValue(value: AnyObject?, forAttribute attribute: NSAttributeDescription) {
         
-        textField.text = value
+        attributeLabel.text = attribute.name
+        
+        textField.text = value.map(stringFromValue)
+        
+        textField.keyboardType = keyboardTypeForAttributeType(attribute.attributeType)
     }
     
-    func currentValue() -> ValueType? {
+    final func currentValue() -> AnyObject? {
         
-        return textField.text
+        return textField.text.map(valueFromString)
+    }
+    
+    func stringFromValue(value: AnyObject) -> String {
+        
+        return value.description!
+    }
+    
+    func valueFromString(valueString: String) -> AnyObject {
+        
+        return valueString
+    }
+    
+    private final func keyboardTypeForAttributeType(attributeType: NSAttributeType) -> UIKeyboardType {
+        
+        switch attributeType {
+            
+        case .StringAttributeType:
+            
+            return .ASCIICapable
+            
+        case .Integer16AttributeType: fallthrough
+        case .Integer32AttributeType: fallthrough
+        case .Integer64AttributeType:
+            
+            return .NumberPad
+        
+        case .DoubleAttributeType: fallthrough
+        case .FloatAttributeType:
+            
+            return .DecimalPad
+            
+        default:
+            
+            return .Default
+        }
     }
 }
 
-class DateFieldTableViewCell: UITableViewCell, AttributeCell {
+class NumberFieldTableViewCell : AttributeFieldTableViewCell {
     
-    typealias ValueType = NSDate
+    let formatter = NSNumberFormatter()
     
-    @IBOutlet weak var dateField: UILabel!
+    override func valueFromString(valueString: String) -> AnyObject {
+        
+        return formatter.numberFromString(valueString)!
+    }
+}
+
+class DateFieldTableViewCell: AttributeFieldTableViewCell {
     
     static let formatter: NSDateFormatter = {
         
@@ -202,34 +237,39 @@ class DateFieldTableViewCell: UITableViewCell, AttributeCell {
         return formatter
     }()
     
-    func update(value: ValueType?, attribute: NSAttributeDescription) {
+    override func stringFromValue(value: AnyObject) -> String {
         
-        dateField.text = value.map({ DateFieldTableViewCell.formatter.stringFromDate($0) })
+        return DateFieldTableViewCell.formatter.stringFromDate(value as! NSDate)
     }
     
-    func currentValue() -> ValueType? {
+    override func valueFromString(valueString: String) -> AnyObject {
         
-        return dateField.text.map({ DateFieldTableViewCell.formatter.dateFromString($0)! })
+        return DateFieldTableViewCell.formatter.dateFromString(valueString)!
     }
 }
 
-class BooleanFieldTableViewCell: UITableViewCell, AttributeCell {
+class BooleanFieldTableViewCell: InsightTableViewCell, AttributeCell {
     
-    typealias ValueType = Bool
-    
-    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var attributeLabel: UILabel!
     
     @IBOutlet weak var toggleSwitch: UISwitch!
     
-    func update(value: ValueType?, attribute: NSAttributeDescription) {
+    func updateWithValue(value: AnyObject?, forAttribute attribute: NSAttributeDescription) {
         
-        nameLabel.text = attribute.name
+        attributeLabel.text = attribute.name
         
-        toggleSwitch.on = value ?? false
+        if let boolValue = value?.boolValue {
+            
+            toggleSwitch.on = boolValue
+            
+        } else {
+            
+            toggleSwitch.on = false
+        }
     }
     
-    func currentValue() -> ValueType? {
+    func currentValue() -> AnyObject? {
         
-        return toggleSwitch.on
+        return toggleSwitch.on as NSNumber
     }
 }

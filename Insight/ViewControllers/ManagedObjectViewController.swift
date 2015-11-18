@@ -87,14 +87,9 @@ public class ManagedObjectViewController : ContextViewController {
             
             titleString = attr.name
             
-            if let value = object.valueForKey(attr.name) {
-                
-                detailString = "\(value)"
-                
-            } else {
-                
-                detailString = "null"
-            }
+            let value = object.valueForKey(attr.name)
+            
+            detailString = valueString(value, forAttribute: attr)
             
         case let rel as NSRelationshipDescription:
             
@@ -124,6 +119,21 @@ public class ManagedObjectViewController : ContextViewController {
         cell.update(mainText: titleString, detailText: detailString)
         
         return cell
+    }
+    
+    private func valueString(aValue: AnyObject?, forAttribute attribute: NSAttributeDescription) -> String {
+        
+        guard let value = aValue else {
+            
+            return "null"
+        }
+        
+        if let boolNumber = value as? NSNumber where attribute.attributeType == .BooleanAttributeType {
+            
+            return boolNumber.boolValue ? "true" : "false"
+        }
+        
+        return "\(value)"
     }
     
     public override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

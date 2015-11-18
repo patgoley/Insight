@@ -38,4 +38,13 @@ extension NSManagedObjectContext {
         
         return coordinator!
     }
+    
+    func privateChildContext() -> NSManagedObjectContext {
+        
+        let privateMainQueueContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
+        
+        privateMainQueueContext.parentContext = self
+        
+        return privateMainQueueContext
+    }
 }

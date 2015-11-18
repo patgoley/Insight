@@ -55,12 +55,11 @@ public class ContextViewController : UITableViewController {
         
         for type in cellTypes() {
             
-            tableView.registerClass(type, forCellReuseIdentifier: type.reuseId())
             tableView.registerNib(type.nib(), forCellReuseIdentifier: type.reuseId())
         }
     }
     
-    func cellTypes() -> [UITableViewCell.Type] {
+    func cellTypes() -> [InsightTableViewCell.Type] {
         
         return [DetailLabelTableViewCell.self]
     }

@@ -18,6 +18,8 @@ public class FetchRequestViewController : ContextViewController {
     
     var objects = [NSManagedObject]()
     
+    var completion: ObjectCompletionBlock?
+    
     convenience public init(context: NSManagedObjectContext, entity: NSEntityDescription) {
         
         let request = NSFetchRequest(entityName: entity.name!)
@@ -41,7 +43,7 @@ public class FetchRequestViewController : ContextViewController {
         fatalError()
     }
     
-    override func cellTypes() -> [UITableViewCell.Type] {
+    override func cellTypes() -> [InsightTableViewCell.Type] {
         
         return [ModelObjectTableViewCell.self]
     }
@@ -87,6 +89,16 @@ public class FetchRequestViewController : ContextViewController {
         
         let object = objectAtIndexPath(indexPath)
         
+        if completion != nil {
+            
+            dismissViewControllerAnimated(true) {
+                
+                self.completion!(object)
+            }
+            
+            return
+        }
+        
         let objectDetailViewController = ManagedObjectViewController(object: object, context: context)
         
         navigationController?.pushViewController(objectDetailViewController, animated: true)
@@ -125,7 +137,7 @@ public class FetchRequestViewController : ContextViewController {
     }
 }
 
-class ModelObjectTableViewCell : UITableViewCell {
+class ModelObjectTableViewCell : InsightTableViewCell {
     
     @IBOutlet weak var nameLabel: UILabel!
     
@@ -134,3 +146,5 @@ class ModelObjectTableViewCell : UITableViewCell {
         nameLabel.text = object.insightDescription
     }
 }
+
+typealias ObjectCompletionBlock = (NSManagedObject) -> ()
