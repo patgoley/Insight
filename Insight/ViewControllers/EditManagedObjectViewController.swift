@@ -130,9 +130,7 @@ public class EditManagedObjectViewController: ManagedObjectViewController, Modal
         
         if indexPath.section == 0 {
             
-            let attribute = objectsForSection(0)[indexPath.row] as! NSAttributeDescription
-            
-            if attribute.attributeType == .BooleanAttributeType {
+            if let attribute = objectsForSection(0)[indexPath.row] as? NSAttributeDescription where attribute.attributeType == .BooleanAttributeType {
                 
                 return 44.0
             }
